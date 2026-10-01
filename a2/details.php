@@ -8,8 +8,13 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-$query = "SELECT * FROM books WHERE id = ?";
+$query = "SELECT * FROM books WHERE book_id = ?";
 $stmt = mysqli_prepare($conn, $query);
+
+if (!$stmt) {
+    die("Database Error in details.php: " . mysqli_error($conn));
+}
+
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -19,8 +24,6 @@ if (!$book) {
     header("Location: books.php");
     exit();
 }
-
-$yearVal = $book['year'] ?? ($book['publish_year'] ?? ($book['publication_year'] ?? 'N/A'));
 
 include 'includes/header.inc';
 ?>
@@ -47,15 +50,15 @@ include 'includes/header.inc';
                 </div>
                 <div class="row mb-3 border-bottom pb-2">
                     <div class="col-4 fw-bold">Publication Year:</div>
-                    <div class="col-8"><?php echo htmlspecialchars($yearVal); ?></div>
+                    <div class="col-8"><?php echo htmlspecialchars($book['publication_year']); ?></div>
                 </div>
                 <div class="row mb-3 border-bottom pb-2">
                     <div class="col-4 fw-bold">ISBN:</div>
-                    <div class="col-8"><?php echo htmlspecialchars($book['isbn'] ?? ''); ?></div>
+                    <div class="col-8"><?php echo htmlspecialchars($book['isbn']); ?></div>
                 </div>
                 <div class="row mb-3 border-bottom pb-2">
                     <div class="col-4 fw-bold">Condition:</div>
-                    <div class="col-8"><?php echo htmlspecialchars($book['book_condition'] ?? ''); ?></div>
+                    <div class="col-8"><?php echo htmlspecialchars($book['book_condition']); ?></div>
                 </div>
                 <div class="row pb-2">
                     <div class="col-4 fw-bold align-self-center">Price:</div>
@@ -64,7 +67,7 @@ include 'includes/header.inc';
             </div>
 
             <h4 class="font-righteous mb-3">Description</h4>
-            <p class="lh-lg"><?php echo nl2br(htmlspecialchars($book['description'] ?? '')); ?></p>
+            <p class="lh-lg"><?php echo nl2br(htmlspecialchars($book['description'])); ?></p>
             
             <div class="mt-4 d-flex gap-3">
                 <a href="books.php" class="btn btn-secondary rounded-pill px-4 d-flex align-items-center"><span class="material-icons me-2">arrow_back</span> Back to Books</a>

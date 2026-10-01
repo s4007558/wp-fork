@@ -3,15 +3,20 @@ $page_title = "Browse Books";
 include 'includes/db_connect.inc';
 include 'includes/header.inc';
 
-// Dynamic status values for filter dropdown
+// Status values dynamically from database
 $statusQuery = "SELECT DISTINCT status FROM books WHERE status IS NOT NULL ORDER BY status ASC";
 $statusStmt = mysqli_prepare($conn, $statusQuery);
 mysqli_stmt_execute($statusStmt);
 $statusResult = mysqli_stmt_get_result($statusStmt);
 
-// Fetch all books
-$query = "SELECT * FROM books ORDER BY id ASC";
+// Fetch all books using book_id
+$query = "SELECT book_id, title, author, genre, publication_year, price, status FROM books ORDER BY book_id ASC";
 $stmt = mysqli_prepare($conn, $query);
+
+if (!$stmt) {
+    die("Database Error in books.php: " . mysqli_error($conn));
+}
+
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 ?>
@@ -39,14 +44,12 @@ $result = mysqli_stmt_get_result($stmt);
                 <?php while ($row = mysqli_fetch_assoc($result)): 
                     $status = strtolower($row['status']);
                     $badgeClass = $status === 'available' ? 'bg-success' : ($status === 'reserved' ? 'bg-warning text-dark' : 'bg-secondary');
-                    // Check whichever year column exists
-                    $yearVal = $row['year'] ?? ($row['publish_year'] ?? ($row['publication_year'] ?? ''));
                 ?>
                 <tr data-status="<?php echo htmlspecialchars($status); ?>" class="border-bottom">
-                    <td class="py-3"><a href="details.php?id=<?php echo $row['id']; ?>" class="text-decoration-none text-dark fw-bold"><?php echo htmlspecialchars($row['title']); ?></a></td>
+                    <td class="py-3"><a href="details.php?id=<?php echo $row['book_id']; ?>" class="text-decoration-none text-dark fw-bold"><?php echo htmlspecialchars($row['title']); ?></a></td>
                     <td><?php echo htmlspecialchars($row['author']); ?></td>
                     <td><?php echo htmlspecialchars($row['genre']); ?></td>
-                    <td><?php echo htmlspecialchars($yearVal); ?></td>
+                    <td><?php echo htmlspecialchars($row['publication_year']); ?></td>
                     <td>$<?php echo number_format($row['price'], 2); ?></td>
                     <td><span class="badge rounded-pill <?php echo $badgeClass; ?> px-3 py-2"><?php echo htmlspecialchars(ucfirst($row['status'])); ?></span></td>
                 </tr>

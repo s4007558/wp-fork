@@ -3,12 +3,12 @@ $page_title = "Home";
 include 'includes/db_connect.inc';
 include 'includes/header.inc';
 
-// Fetch the 4 most recently added books
-$query = "SELECT book_id, title, author, genre, price, image_path FROM books ORDER BY id DESC LIMIT 4";
+// Fetch the 4 most recently added books using book_id
+$query = "SELECT book_id, title, author, genre, price, image_path FROM books ORDER BY book_id DESC LIMIT 4";
 $stmt = mysqli_prepare($conn, $query);
 
 if (!$stmt) {
-    die("Database Query Error: " . mysqli_error($conn));
+    die("Database Error in index.php: " . mysqli_error($conn));
 }
 
 mysqli_stmt_execute($stmt);
@@ -69,7 +69,7 @@ $result = mysqli_stmt_get_result($stmt);
                         <h5 class="card-title font-righteous mb-1"><?php echo htmlspecialchars($row['title']); ?></h5>
                         <p class="card-text text-muted small mb-3"><?php echo htmlspecialchars($row['genre']); ?> &bull; <?php echo htmlspecialchars($row['author']); ?></p>
                         <p class="card-text fw-bold fs-5 mt-auto text-info">$<?php echo number_format($row['price'], 2); ?></p>
-                        <a href="details.php?id=<?php echo $row['id']; ?>" class="btn btn-primary-custom w-100 mt-3 rounded-pill d-flex justify-content-center align-items-center">
+                        <a href="details.php?id=<?php echo $row['book_id']; ?>" class="btn btn-primary-custom w-100 mt-3 rounded-pill d-flex justify-content-center align-items-center">
                             <span class="material-icons fs-6 me-2">visibility</span> View Details
                         </a>
                     </div>

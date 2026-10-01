@@ -3,9 +3,14 @@ $page_title = "Gallery";
 include 'includes/db_connect.inc';
 include 'includes/header.inc';
 
-// Using DISTINCT to guarantee no duplicate cards
-$query = "SELECT DISTINCT id, title, image_path, author FROM books WHERE image_path IS NOT NULL AND image_path != '' ORDER BY id ASC";
+// Pull book_id, title, image_path, author, publication_year
+$query = "SELECT DISTINCT book_id, title, image_path, author, publication_year FROM books WHERE image_path IS NOT NULL AND image_path != '' ORDER BY book_id ASC";
 $stmt = mysqli_prepare($conn, $query);
+
+if (!$stmt) {
+    die("Database Error in gallery.php: " . mysqli_error($conn));
+}
+
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 ?>
@@ -26,6 +31,7 @@ $result = mysqli_stmt_get_result($stmt);
                          data-bs-target="#imageModal"
                          data-title="<?php echo htmlspecialchars($row['title']); ?>"
                          data-author="<?php echo htmlspecialchars($row['author'] ?? ''); ?>"
+                         data-year="<?php echo htmlspecialchars($row['publication_year'] ?? ''); ?>"
                          style="object-fit: cover; height: 230px; cursor: pointer;">
                 </div>
             </div>
@@ -44,7 +50,8 @@ $result = mysqli_stmt_get_result($stmt);
             <div class="modal-body text-center p-0">
                 <img src="" id="modalImage" class="img-fluid w-100" alt="Cover preview" style="max-height: 500px; object-fit: contain; background: #0b1329;">
                 <div class="p-3" style="background-color: #1e293b;">
-                    <h5 id="modalAuthor" class="mb-0 text-info font-righteous"></h5>
+                    <h5 id="modalAuthor" class="mb-1 text-info font-righteous"></h5>
+                    <p id="modalYear" class="mb-0 text-muted"></p>
                 </div>
             </div>
             <div class="modal-footer border-top-0 d-flex justify-content-end" style="background-color: #0f172a;">
