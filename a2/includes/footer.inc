@@ -3,7 +3,7 @@
     <div class="container text-center">
 
         <p class="mb-0">
-            &copy; 2026 BookVerse
+            &copy; 2026 BookVerse Created by s4007558 Joseph Michael Saba
         </p>
 
     </div>
