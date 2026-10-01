@@ -45,6 +45,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 reader.readAsDataURL(file);
             } else {
                 imagePreview.style.display = 'none';
+
+                // 3. Gallery Modal Logic (gallery.php)
+    const imageModal = document.getElementById('imageModal');
+    if (imageModal) {
+        imageModal.addEventListener('show.bs.modal', function (event) {
+            const triggerImage = event.relatedTarget;
+            
+            // Extract info from data-* attributes
+            const imageUrl = triggerImage.getAttribute('src');
+            const bookTitle = triggerImage.getAttribute('data-title');
+            const bookAuthor = triggerImage.getAttribute('data-author');
+            const bookYear = triggerImage.getAttribute('data-year');
+            
+            // Update the modal's content
+            imageModal.querySelector('.modal-title').textContent = bookTitle;
+            imageModal.querySelector('#modalImage').src = imageUrl;
+            imageModal.querySelector('#modalImage').alt = bookTitle;
+            imageModal.querySelector('#modalAuthor').textContent = 'By ' + bookAuthor;
+            imageModal.querySelector('#modalYear').textContent = 'Published: ' + bookYear;
+        });
+    }
             }
         });
     }
