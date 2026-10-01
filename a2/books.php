@@ -37,11 +37,10 @@ $result = mysqli_stmt_get_result($stmt);
                     <td class="py-3"><a href="details.php?id=<?php echo $row['id']; ?>" class="text-decoration-none text-dark fw-medium"><?php echo htmlspecialchars($row['title']); ?></a></td>
                     <td><?php echo htmlspecialchars($row['author']); ?></td>
                     <td><?php echo htmlspecialchars($row['genre']); ?></td>
-                    <td><?php echo htmlspecialchars($row['publish_year']); ?></td>
+                    <td><?php echo htmlspecialchars($row['publication_year']); ?></td>
                     <td>$<?php echo number_format($row['price'], 2); ?></td>
                     <td><span class="badge rounded-pill <?php echo $badgeClass; ?> px-3 py-2"><?php echo htmlspecialchars(ucfirst($row['status'])); ?></span></td>
                 </tr>
-                <?php endline; ?>
                 <?php endwhile; ?>
             </tbody>
         </table>
