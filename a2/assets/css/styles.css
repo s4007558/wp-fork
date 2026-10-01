@@ -1,0 +1,60 @@
+:root {
+    --primary-color: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #14b8a6;
+    --secondary-color: #d97706;
+    --accent-amber: #fbbf24;
+    --accent-green: #10b981;
+    --bg-dark: #0f172a;
+    --text-dark: #1f2937;
+    --text-light: #f9fafb;
+}
+
+body {
+    font-family: 'Elms Sans', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .font-righteous {
+    font-family: 'Righteous', cursive;
+}
+
+.font-elms {
+    font-family: 'Elms Sans', sans-serif;
+}
+
+/* Custom Cards for Dark Theme */
+.card {
+    background-color: #1e293b;
+    border: none;
+    border-radius: 8px;
+}
+
+.card-title {
+    color: var(--text-light);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Form Styling */
+.form-control, .form-select {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    color: white;
+}
+.form-control:focus, .form-select:focus {
+    background-color: #0f172a;
+    color: white;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 0.25rem rgba(20, 184, 166, 0.25);
+}
