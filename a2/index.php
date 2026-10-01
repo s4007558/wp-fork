@@ -4,7 +4,7 @@ include 'includes/db_connect.inc';
 include 'includes/header.inc';
 
 // Fetch the 4 most recently added books
-$query = "SELECT id, title, author, genre, price, image_path FROM books ORDER BY id DESC LIMIT 4";
+$query = "SELECT book_id, title, author, genre, price, image_path FROM books ORDER BY id DESC LIMIT 4";
 $stmt = mysqli_prepare($conn, $query);
 
 if (!$stmt) {
