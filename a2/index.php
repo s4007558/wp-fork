@@ -1,309 +1,81 @@
 <?php
+$page_title = "Home";
+include 'includes/db_connect.inc';
+include 'includes/header.inc';
 
-require_once __DIR__ . '/includes/db_connect.inc';
-
-$sql = "SELECT book_id, title, author, price, status, image_path
-        FROM books
-        ORDER BY book_id DESC
-        LIMIT 4";
-
-$result = mysqli_query($conn, $sql);
-
-require_once __DIR__ . '/includes/header.inc';
-
+// Fetch the 4 most recently added books from the database
+$query = "SELECT id, title, author, genre, price, image_path FROM books ORDER BY id DESC LIMIT 4";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 ?>
 
-<!-- Hero Section -->
-<section class="hero-section">
-
-    <div class="container">
-
-        <div class="row align-items-center">
-
-            <div class="col-lg-6">
-
-                <span class="hero-label">
-                    Welcome to BookVerse
-                </span>
-
-                <h1>
-                    Discover Your Next Great Read
-                </h1>
-
-                <p>
-                    Explore our collection of books and find
-                    something worth reading.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a
-                        href="/wp-fork/a2/books.php"
-                        class="btn btn-primary-custom"
-                    >
-                        Browse Books
-                    </a>
-
-                    <a
-                        href="/wp-fork/a2/gallery.php"
-                        class="btn btn-outline-custom"
-                    >
-                        View Gallery
-                    </a>
-
-                </div>
-
+<!-- Static Carousel using .png extensions -->
+<div id="heroCarousel" class="carousel slide border-bottom border-info border-3" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="assets/images/banner1.png" class="d-block w-100" alt="Banner 1" style="height: 400px; object-fit: cover; opacity: 0.8;">
+            <div class="carousel-caption d-none d-md-block">
+                <h2 class="font-righteous display-4 text-white text-shadow">The Midnight Library</h2>
+                <a href="details.php?id=1" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
             </div>
-
         </div>
-
+        <div class="carousel-item">
+            <img src="assets/images/banner2.png" class="d-block w-100" alt="Banner 2" style="height: 400px; object-fit: cover; opacity: 0.8;">
+            <div class="carousel-caption d-none d-md-block">
+                <h2 class="font-righteous display-4 text-white text-shadow">Project Hail Mary</h2>
+                <a href="details.php?id=2" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="assets/images/banner3.png" class="d-block w-100" alt="Banner 3" style="height: 400px; object-fit: cover; opacity: 0.8;">
+            <div class="carousel-caption d-none d-md-block">
+                <h2 class="font-righteous display-4 text-white text-shadow">Dune</h2>
+                <a href="details.php?id=3" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="assets/images/banner4.png" class="d-block w-100" alt="Banner 4" style="height: 400px; object-fit: cover; opacity: 0.8;">
+            <div class="carousel-caption d-none d-md-block">
+                <h2 class="font-righteous display-4 text-white text-shadow">The Hobbit</h2>
+                <a href="details.php?id=4" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
+            </div>
+        </div>
     </div>
-
-</section>
-
-
-<!-- Carousel -->
-<section class="carousel-section">
-
-    <div class="container">
-
-        <div
-            id="bookVerseCarousel"
-            class="carousel slide"
-            data-bs-ride="carousel"
-        >
-
-            <div class="carousel-indicators">
-
-                <button
-                    type="button"
-                    data-bs-target="#bookVerseCarousel"
-                    data-bs-slide-to="0"
-                    class="active"
-                    aria-current="true"
-                    aria-label="Slide 1"
-                ></button>
-
-                <button
-                    type="button"
-                    data-bs-target="#bookVerseCarousel"
-                    data-bs-slide-to="1"
-                    aria-label="Slide 2"
-                ></button>
-
-                <button
-                    type="button"
-                    data-bs-target="#bookVerseCarousel"
-                    data-bs-slide-to="2"
-                    aria-label="Slide 3"
-                ></button>
-
-                <button
-                    type="button"
-                    data-bs-target="#bookVerseCarousel"
-                    data-bs-slide-to="3"
-                    aria-label="Slide 4"
-                ></button>
-
-            </div>
-
-
-            <div class="carousel-inner">
-
-                <div class="carousel-item active">
-
-                    <img
-                        src="/wp-fork/a2/assets/images/banner1.jpg"
-                        class="d-block w-100"
-                        alt="BookVerse banner"
-                    >
-
-                </div>
-
-
-                <div class="carousel-item">
-
-                    <img
-                        src="/wp-fork/a2/assets/images/banner2.jpg"
-                        class="d-block w-100"
-                        alt="Books banner"
-                    >
-
-                </div>
-
-
-                <div class="carousel-item">
-
-                    <img
-                        src="/wp-fork/a2/assets/images/banner3.jpg"
-                        class="d-block w-100"
-                        alt="Reading banner"
-                    >
-
-                </div>
-
-
-                <div class="carousel-item">
-
-                    <img
-                        src="/wp-fork/a2/assets/images/banner4.jpg"
-                        class="d-block w-100"
-                        alt="Book collection banner"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <button
-                class="carousel-control-prev"
-                type="button"
-                data-bs-target="#bookVerseCarousel"
-                data-bs-slide="prev"
-            >
-
-                <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                ></span>
-
-                <span class="visually-hidden">
-                    Previous
-                </span>
-
-            </button>
-
-
-            <button
-                class="carousel-control-next"
-                type="button"
-                data-bs-target="#bookVerseCarousel"
-                data-bs-slide="next"
-            >
-
-                <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                ></span>
-
-                <span class="visually-hidden">
-                    Next
-                </span>
-
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- Latest Books -->
-<section class="latest-books-section">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <span>
-                Recently Added
-            </span>
-
-            <h2>
-                Latest Books
-            </h2>
-
-        </div>
-
-
-        <div class="row g-4">
-
-            <?php if (mysqli_num_rows($result) > 0): ?>
-
-                <?php while ($book = mysqli_fetch_assoc($result)): ?>
-
-                    <div class="col-md-6 col-lg-3">
-
-                        <div class="book-card">
-
-                            <div class="book-card-image">
-
-                                <img
-                                    src="/wp-fork/a2/<?= htmlspecialchars($book['image_path']) ?>"
-                                    alt="<?= htmlspecialchars($book['title']) ?>"
-                                >
-
-                            </div>
-
-
-                            <div class="book-card-content">
-
-                                <h3>
-                                    <?= htmlspecialchars($book['title']) ?>
-                                </h3>
-
-                                <p class="book-author">
-                                    <?= htmlspecialchars($book['author']) ?>
-                                </p>
-
-                                <p class="book-price">
-                                    $<?= number_format((float)$book['price'], 2) ?>
-                                </p>
-
-                                <span class="book-status">
-                                    <?= htmlspecialchars($book['status']) ?>
-                                </span>
-
-                                <a
-                                    href="/wp-fork/a2/details.php?id=<?= (int)$book['book_id'] ?>"
-                                    class="btn btn-primary-custom btn-sm"
-                                >
-                                    View Details
-                                </a>
-
-                            </div>
-
-                        </div>
-
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Dynamic Grid displaying database images -->
+<div class="container my-5">
+    <h3 class="mb-4 d-flex align-items-center font-righteous text-info"><span class="material-icons me-2">favorite</span> Featured Books</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+            <div class="col">
+                <div class="card h-100 bg-white text-dark shadow-sm border-0 rounded-4 overflow-hidden">
+                    <img src="assets/images/covers/<?php echo htmlspecialchars($row['image_path']); ?>" class="card-img-top p-3" alt="<?php echo htmlspecialchars($row['title']); ?>" style="height: 280px; object-fit: contain;">
+                    <div class="card-body d-flex flex-column px-4">
+                        <h5 class="card-title font-righteous mb-1"><?php echo htmlspecialchars($row['title']); ?></h5>
+                        <p class="card-text text-muted small mb-3"><?php echo htmlspecialchars($row['genre']); ?> &bull; <?php echo htmlspecialchars($row['author']); ?></p>
+                        <p class="card-text fw-bold fs-5 mt-auto text-info">$<?php echo number_format($row['price'], 2); ?></p>
+                        <a href="details.php?id=<?php echo $row['id']; ?>" class="btn btn-primary-custom w-100 mt-3 rounded-pill d-flex justify-content-center align-items-center">
+                            <span class="material-icons fs-6 me-2">visibility</span> View Details
+                        </a>
                     </div>
-
-                <?php endwhile; ?>
-
-            <?php else: ?>
-
-                <div class="col-12">
-
-                    <p class="text-center">
-                        No books are currently available.
-                    </p>
-
                 </div>
-
-            <?php endif; ?>
-
-        </div>
-
-
-        <div class="text-center mt-5">
-
-            <a
-                href="/wp-fork/a2/books.php"
-                class="btn btn-primary-custom"
-            >
-                View All Books
-            </a>
-
-        </div>
-
+            </div>
+        <?php endwhile; ?>
     </div>
+</div>
 
-</section>
-
-
-<?php
-
-require_once __DIR__ . '/includes/footer.inc';
-
+<?php 
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
+include 'includes/footer.inc'; 
 ?>

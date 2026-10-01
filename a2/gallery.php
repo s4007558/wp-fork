@@ -3,8 +3,8 @@ $page_title = "Gallery";
 include 'includes/db_connect.inc';
 include 'includes/header.inc';
 
-// Fetch all book images and titles
-$query = "SELECT title, image_path FROM books WHERE image_path IS NOT NULL AND image_path != '' ORDER BY title ASC";
+// Use DISTINCT to prevent duplicate images from showing if the database has duplicate rows
+$query = "SELECT DISTINCT title, image_path FROM books WHERE image_path IS NOT NULL AND image_path != '' ORDER BY title ASC";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -33,7 +33,7 @@ $result = mysqli_stmt_get_result($stmt);
     </div>
 </div>
 
-<!-- Bootstrap Modal (Hidden by default) -->
+<!-- Bootstrap Modal -->
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-dark text-light border-info">
@@ -46,10 +46,7 @@ $result = mysqli_stmt_get_result($stmt);
             </div>
             <div class="modal-footer border-top-0 d-flex justify-content-between" style="background-color: #1e293b;">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <span class="material-icons align-middle fs-6">arrow_back_ios</span> Previous
-                </button>
-                <button type="button" class="btn btn-primary-custom">
-                    Next <span class="material-icons align-middle fs-6">arrow_forward_ios</span>
+                    <span class="material-icons align-middle fs-6">close</span> Close
                 </button>
             </div>
         </div>
