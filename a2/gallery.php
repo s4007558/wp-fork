@@ -49,7 +49,7 @@ $result = mysqli_stmt_get_result($stmt);
             </div>
             <div class="modal-body text-center p-0">
                 <img src="" id="modalImage" class="img-fluid w-100" alt="Cover preview" style="max-height: 500px; object-fit: contain; background: #0b1329;">
-                <div class="p-3" style="background-color: #1e293b;">
+                <div class="p-3" style="background-color: #020b18;">
                     <h5 id="modalAuthor" class="mb-1 text-info font-righteous"></h5>
                     <p id="modalYear" class="mb-0 text-muted"></p>
                 </div>
