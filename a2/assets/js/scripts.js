@@ -1,118 +1,51 @@
-document.addEventListener("DOMContentLoaded", function () {
-
-    /*
-     * Image upload validation
-     */
-
-    const imageInput = document.getElementById("image");
-
-    if (imageInput) {
-
-        imageInput.addEventListener("change", function () {
-
-            const file = this.files[0];
-
-            if (!file) {
-                return;
-            }
-
-            const allowedTypes = [
-                "image/jpeg",
-                "image/png",
-                "image/gif",
-                "image/webp"
-            ];
-
-            if (!allowedTypes.includes(file.type)) {
-
-                alert(
-                    "Please upload a JPG, JPEG, PNG, GIF or WEBP image."
-                );
-
-                this.value = "";
-
-            }
-
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // 1. Status Filter Logic (books.php)
+    const filterSelect = document.getElementById('statusFilter');
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function() {
+            const selectedStatus = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tr[data-status]');
+            
+            rows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status').toLowerCase();
+                if (selectedStatus === 'all' || rowStatus === selectedStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         });
-
     }
 
-
-    /*
-     * Gallery modal
-     */
-
-    const galleryImages =
-        document.querySelectorAll("[data-gallery-image]");
-
-    const modalImage =
-        document.getElementById("modalImage");
-
-    galleryImages.forEach(function (image) {
-
-        image.addEventListener("click", function () {
-
-            if (modalImage) {
-
-                modalImage.src =
-                    this.getAttribute("data-gallery-image");
-
-                modalImage.alt =
-                    this.getAttribute("data-gallery-title") || "Book";
-
-            }
-
-        });
-
-    });
-
-
-    /*
-     * Client-side book filtering
-     */
-
-    const filterButtons =
-        document.querySelectorAll("[data-filter]");
-
-    const bookItems =
-        document.querySelectorAll("[data-book-status]");
-
-    filterButtons.forEach(function (button) {
-
-        button.addEventListener("click", function () {
-
-            const filter =
-                this.getAttribute("data-filter");
-
-            bookItems.forEach(function (book) {
-
-                const status =
-                    book.getAttribute("data-book-status");
-
-                if (
-                    filter === "all" ||
-                    filter === status
-                ) {
-
-                    book.style.display = "";
-
-                } else {
-
-                    book.style.display = "none";
-
+    // 2. Image Validation & Preview (add.php)
+    const imageInput = document.getElementById('imagePath');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    if (imageInput) {
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            
+            if (file) {
+                const extension = file.name.split('.').pop().toLowerCase();
+                if (!allowedExtensions.includes(extension)) {
+                    alert('Invalid file format. Only JPG, JPEG, PNG, GIF, and WEBP are accepted.');
+                    this.value = ''; // Clear the input
+                    imagePreview.style.display = 'none';
+                    return;
                 }
-
-            });
-
-
-            filterButtons.forEach(function (item) {
-                item.classList.remove("active");
-            });
-
-            this.classList.add("active");
-
+                
+                // Show Preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
         });
-
-    });
-
+    }
 });
