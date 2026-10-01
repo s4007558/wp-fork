@@ -1,63 +1,21 @@
 <?php
+session_start();
 $page_title = "Add Book";
-include 'includes/db_connect.inc';
-
-$message = "";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = trim($_POST['title']);
-    $author = trim($_POST['author']);
-    $genre = trim($_POST['genre']);
-    $year = intval($_POST['publish_year']);
-    $price = floatval($_POST['price']);
-    $isbn = trim($_POST['isbn']);
-    $condition = trim($_POST['book_condition']);
-    $description = trim($_POST['description']);
-    $status = trim($_POST['status']);
-    
-    // Image Handling
-    if (isset($_FILES['image_path']) && $_FILES['image_path']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['image_path']['tmp_name'];
-        $fileName = $_FILES['image_path']['name'];
-        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        
-        $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        
-        if (in_array($fileExtension, $allowedExts)) {
-            // Generate unique filename to prevent overwriting
-            $newFileName = uniqid('cover_', true) . '.' . $fileExtension;
-            $destPath = 'assets/images/covers/' . $newFileName;
-            
-            if (move_uploaded_file($fileTmpPath, $destPath)) {
-                // Prepared Statement Insertion
-                $sql = "INSERT INTO books (title, author, genre, publish_year, price, isbn, book_condition, description, image_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, "sssidissss", $title, $author, $genre, $year, $price, $isbn, $condition, $description, $newFileName, $status);
-                
-                if (mysqli_stmt_execute($stmt)) {
-                    $message = "<div class='alert alert-success'>Book added successfully!</div>";
-                } else {
-                    $message = "<div class='alert alert-danger'>Database error: " . mysqli_error($conn) . "</div>";
-                }
-                mysqli_stmt_close($stmt);
-            } else {
-                $message = "<div class='alert alert-danger'>Error moving uploaded file.</div>";
-            }
-        } else {
-            $message = "<div class='alert alert-danger'>Invalid file type.</div>";
-        }
-    }
-}
-
 include 'includes/header.inc';
 ?>
 
 <div class="container my-5 max-w-75">
-    <h2 class="mb-4 d-flex align-items-center"><span class="material-icons me-2 text-info">add_box</span> Add New Book</h2>
-    <?php echo $message; ?>
+    <h2 class="mb-4 d-flex align-items-center font-righteous"><span class="material-icons me-2 text-info">add_box</span> Add New Book</h2>
+    
+    <?php 
+    if (isset($_SESSION['message'])) {
+        echo $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
+    ?>
     
     <div class="card p-4 shadow-sm" style="background-color: #1e293b;">
-        <form action="add.php" method="POST" enctype="multipart/form-data">
+        <form action="process_add.php" method="POST" enctype="multipart/form-data">
             
             <div class="mb-3">
                 <label class="form-label"><span class="material-icons fs-6 me-1">title</span> Book Title</label>
@@ -69,7 +27,47 @@ include 'includes/header.inc';
                 <input type="text" name="author" class="form-control" required placeholder="Enter author name">
             </div>
 
-            <!-- Additional standard fields (Genre, Year, Price, ISBN, Condition) go here following similar layout as screenshot -->
+            <div class="mb-3">
+                <label class="form-label"><span class="material-icons fs-6 me-1">category</span> Genre</label>
+                <select name="genre" class="form-select" required>
+                    <option value="">Select a genre</option>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Science Fiction">Science Fiction</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Dystopian">Dystopian</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Memoir">Memoir</option>
+                    <option value="Self-Help">Self-Help</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><span class="material-icons fs-6 me-1">calendar_today</span> Publication Year</label>
+                    <input type="number" name="year" class="form-control" required value="<?php echo date('Y'); ?>">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><span class="material-icons fs-6 me-1">attach_money</span> Price ($)</label>
+                    <input type="number" step="0.01" name="price" class="form-control" required placeholder="19.99">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><span class="material-icons fs-6 me-1">qr_code</span> ISBN</label>
+                    <input type="text" name="isbn" class="form-control" required placeholder="978-1-234567-89-0">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label"><span class="material-icons fs-6 me-1">bookmark</span> Book Condition</label>
+                    <select name="book_condition" class="form-select" required>
+                        <option value="">Select condition</option>
+                        <option value="New">New</option>
+                        <option value="Like New">Like New</option>
+                        <option value="Used">Used</option>
+                    </select>
+                </div>
+            </div>
             
             <div class="mb-3">
                 <label class="form-label"><span class="material-icons fs-6 me-1">description</span> Description</label>
@@ -79,7 +77,7 @@ include 'includes/header.inc';
             <div class="mb-4">
                 <label class="form-label"><span class="material-icons fs-6 me-1">image</span> Upload Cover Image</label>
                 <input type="file" name="image_path" id="imagePath" class="form-control" accept=".jpg,.jpeg,.png,.gif,.webp" required>
-                <img id="imagePreview" src="#" alt="Preview" class="mt-3 rounded shadow" style="display:none; max-width: 200px;">
+                <img id="imagePreview" src="#" alt="Preview" class="mt-3 rounded shadow" style="display:none; max-width: 180px;">
             </div>
 
             <div class="mb-4">

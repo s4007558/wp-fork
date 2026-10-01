@@ -3,41 +3,46 @@ $page_title = "Home";
 include 'includes/db_connect.inc';
 include 'includes/header.inc';
 
-// Fetch the 4 most recently added books from the database
+// Fetch the 4 most recently added books
 $query = "SELECT id, title, author, genre, price, image_path FROM books ORDER BY id DESC LIMIT 4";
 $stmt = mysqli_prepare($conn, $query);
+
+if (!$stmt) {
+    die("Database Query Error: " . mysqli_error($conn));
+}
+
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 ?>
 
-<!-- Static Carousel using .png extensions -->
+<!-- Carousel with 4 static images -->
 <div id="heroCarousel" class="carousel slide border-bottom border-info border-3" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="assets/images/banner1.png" class="d-block w-100" alt="Banner 1" style="height: 400px; object-fit: cover; opacity: 0.8;">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="font-righteous display-4 text-white text-shadow">The Midnight Library</h2>
+            <img src="assets/images/covers/1.png" class="d-block w-100" alt="The Midnight Library" style="height: 420px; object-fit: cover; filter: brightness(0.65);">
+            <div class="carousel-caption d-none d-md-block pb-4">
+                <h2 class="font-righteous display-5 text-white">The Midnight Library</h2>
                 <a href="details.php?id=1" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="assets/images/banner2.png" class="d-block w-100" alt="Banner 2" style="height: 400px; object-fit: cover; opacity: 0.8;">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="font-righteous display-4 text-white text-shadow">Project Hail Mary</h2>
+            <img src="assets/images/covers/2.png" class="d-block w-100" alt="Project Hail Mary" style="height: 420px; object-fit: cover; filter: brightness(0.65);">
+            <div class="carousel-caption d-none d-md-block pb-4">
+                <h2 class="font-righteous display-5 text-white">Project Hail Mary</h2>
                 <a href="details.php?id=2" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="assets/images/banner3.png" class="d-block w-100" alt="Banner 3" style="height: 400px; object-fit: cover; opacity: 0.8;">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="font-righteous display-4 text-white text-shadow">Dune</h2>
+            <img src="assets/images/covers/3.png" class="d-block w-100" alt="Dune" style="height: 420px; object-fit: cover; filter: brightness(0.65);">
+            <div class="carousel-caption d-none d-md-block pb-4">
+                <h2 class="font-righteous display-5 text-white">Dune</h2>
                 <a href="details.php?id=3" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="assets/images/banner4.png" class="d-block w-100" alt="Banner 4" style="height: 400px; object-fit: cover; opacity: 0.8;">
-            <div class="carousel-caption d-none d-md-block">
-                <h2 class="font-righteous display-4 text-white text-shadow">The Hobbit</h2>
+            <img src="assets/images/covers/4.png" class="d-block w-100" alt="The Hobbit" style="height: 420px; object-fit: cover; filter: brightness(0.65);">
+            <div class="carousel-caption d-none d-md-block pb-4">
+                <h2 class="font-righteous display-5 text-white">The Hobbit</h2>
                 <a href="details.php?id=4" class="btn btn-light rounded-pill px-4 fw-bold mt-2"><span class="material-icons align-middle me-1">visibility</span> View Details</a>
             </div>
         </div>
@@ -52,7 +57,7 @@ $result = mysqli_stmt_get_result($stmt);
     </button>
 </div>
 
-<!-- Dynamic Grid displaying database images -->
+<!-- Dynamic Grid: Latest 4 Records -->
 <div class="container my-5">
     <h3 class="mb-4 d-flex align-items-center font-righteous text-info"><span class="material-icons me-2">favorite</span> Featured Books</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
