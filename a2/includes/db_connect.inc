@@ -17,9 +17,9 @@ if ($host_name === 'localhost' || $host_name === '127.0.0.1') {
 } else {
 
     // -------------------------------------------------------------
-    // 2. RMIT Coreteaching Production Settings
+    // 2. RMIT Coreteaching / Production Settings
     // -------------------------------------------------------------
-    $host = '131.170.5.135';
+    $host = 'jacob5';
     $user = 'jupiter.csit.rmit.edu.au';
     $pass = 'Maher2003468';
     $db   = 's4007558';
@@ -27,7 +27,7 @@ if ($host_name === 'localhost' || $host_name === '127.0.0.1') {
 
 
 // -------------------------------------------------------------
-// Connect to the database
+// Connect to database
 // -------------------------------------------------------------
 $conn = mysqli_connect($host, $user, $pass, $db);
 
@@ -41,11 +41,10 @@ if (!$conn) {
 
 
 // -------------------------------------------------------------
-// Set character encoding
+// Set UTF-8 character encoding
 // -------------------------------------------------------------
 mysqli_set_charset($conn, "utf8mb4");
 
 ?>
 ```
 
-**Important:** If `Maher2003468` is your real database password, change it after sharing it publicly. Also, if the IP connection produces a different error, send me that exact error — it will tell us whether the issue is the database host, credentials, or RMIT server access.
