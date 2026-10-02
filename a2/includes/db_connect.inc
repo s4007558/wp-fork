@@ -9,7 +9,7 @@ if ($is_localhost) {
     $db_name = "bookverse";
 } else {
     // Coreteaching / Jacob 5 environment
-    $db_host = "jupiter.csit.rmit.edu.au";
+    $db_host = "s4007558@jupiter.csit.rmit.edu.au";
     $db_user = "s4007558"; // Update with your Student ID
     $db_pass = "Maher2003468"; // Update with your DB Password
     $db_name = "s4007558"; // Update with your Student ID
