@@ -1,23 +1,28 @@
 <?php
-$host = $_SERVER['HTTP_HOST'];
-$is_localhost = in_array($host, ['localhost', '127.0.0.1', '::1']);
+// Determine environment by checking the host header
+$host_name = $_SERVER['HTTP_HOST'] ?? '';
 
-if ($is_localhost) {
-    $db_host = "localhost";
-    $db_user = "root"; // Default XAMPP/MAMP user
-    $db_pass = "";     // Default XAMPP/MAMP password
-    $db_name = "bookverse";
+if ($host_name === 'localhost' || $host_name === '127.0.0.1') {
+    // Localhost XAMPP Settings
+    $host = 'localhost';
+    $user = 'root';
+    $pass = '';
+    $db   = 'bookverse';
 } else {
-    // Coreteaching / Jacob 5 environment
-    $db_host = "s4007558@jupiter.csit.rmit.edu.au";
-    $db_user = "s4007558"; // Update with your Student ID
-    $db_pass = "Maher2003468"; // Update with your DB Password
-    $db_name = "s4007558"; // Update with your Student ID
+    // Coreteaching Jacob 5 Settings
+    $host = 'jupiter.csit.rmit.edu.au';
+    $user = 's4007558';
+    $pass = 'Maher2003468'; //
+    $db   = 's4007558';
 }
 
-$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+// Establish procedural MySQLi connection
+$conn = mysqli_connect($host, $user, $pass, $db);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
+
+// Ensure UTF-8 character encoding
+mysqli_set_charset($conn, "utf8mb4");
 ?>
