@@ -1,6 +1,6 @@
 <?php
 
-// Determine which environment the website is running on
+// Detect whether the website is running locally or on RMIT Coreteaching
 $host_name = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 
 if (
@@ -8,21 +8,21 @@ if (
     $host_name === '127.0.0.1' ||
     strpos($host_name, 'localhost') !== false
 ) {
-    // Localhost settings
+    // Localhost database settings
     $host = 'localhost';
     $user = 'root';
     $pass = '';
     $db   = 'bookverse';
 
 } else {
-    // RMIT Coreteaching / Jacob 5 settings
-    $host = 'jacob5';
+    // RMIT Jupiter database settings
+    $host = 'jupiter.csit.rmit.edu.au';
     $user = 's4007558';
     $pass = 'Maher2003468';
     $db   = 's4007558';
 }
 
-// Connect to database
+// Connect to MySQL
 $conn = mysqli_connect($host, $user, $pass, $db);
 
 // Check connection
