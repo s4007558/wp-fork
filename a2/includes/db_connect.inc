@@ -17,7 +17,7 @@ if (
     // RMIT Coreteaching / Jacob 5 database settings
     $host = 'jacob5';
     $user = 's4007558';
-    $pass = '';
+    $pass = 'Maher2003468';
     $db   = 's4007558';
 }
 
