@@ -1,8 +1,11 @@
+```php
 <?php
+
 // Determine environment dynamically by checking the host header
 $host_name = $_SERVER['HTTP_HOST'] ?? '';
 
 if ($host_name === 'localhost' || $host_name === '127.0.0.1') {
+
     // -------------------------------------------------------------
     // 1. Localhost XAMPP Settings
     // -------------------------------------------------------------
@@ -11,35 +14,38 @@ if ($host_name === 'localhost' || $host_name === '127.0.0.1') {
     $pass = '';
     $db   = 'bookverse';
 
-    $conn = mysqli_connect($host, $user, $pass, $db);
-
 } else {
+
     // -------------------------------------------------------------
-    // 2. Coreteaching (Titan / Jupiter) Production Settings
+    // 2. RMIT Coreteaching Production Settings
     // -------------------------------------------------------------
+    $host = '131.170.5.135';
     $user = 'jupiter.csit.rmit.edu.au';
-    $pass = 'Maher2003468'; //
+    $pass = 'Maher2003468';
     $db   = 's4007558';
-
-    // Primary attempt: Internal short hostname 'jacob5'
-    $conn = @mysqli_connect('jacob5', $user, $pass, $db);
-
-    // Fallback 1: Direct internal IP address (bypasses DNS getaddrinfo errors)
-    if (!$conn) {
-        $conn = @mysqli_connect('131.170.5.135', $user, $pass, $db);
-    }
-
-    // Fallback 2: Fully qualified domain name
-    if (!$conn) {
-        $conn = @mysqli_connect('jacob5.csit.rmit.edu.au', $user, $pass, $db);
-    }
 }
 
-// Check final connection outcome
+
+// -------------------------------------------------------------
+// Connect to the database
+// -------------------------------------------------------------
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+
+// -------------------------------------------------------------
+// Check connection
+// -------------------------------------------------------------
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-// Enforce standard utf8mb4 character encoding
+
+// -------------------------------------------------------------
+// Set character encoding
+// -------------------------------------------------------------
 mysqli_set_charset($conn, "utf8mb4");
+
 ?>
+```
+
+**Important:** If `Maher2003468` is your real database password, change it after sharing it publicly. Also, if the IP connection produces a different error, send me that exact error — it will tell us whether the issue is the database host, credentials, or RMIT server access.
