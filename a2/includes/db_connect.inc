@@ -15,8 +15,9 @@ if (
     $db   = 'bookverse';
 
 } else {
-    // RMIT Jupiter database settings
-    $host = 'jupiter.csit.rmit.edu.au';
+    // RMIT server database settings
+    // The script runs ON the RMIT server, so connect via localhost
+    $host = 'localhost';
     $user = 's4007558';
     $pass = 'Maher2003468';
     $db   = 's4007558';
@@ -24,6 +25,11 @@ if (
 
 // Connect to MySQL
 $conn = mysqli_connect($host, $user, $pass, $db);
+
+// If localhost is refused on the RMIT server, retry with 127.0.0.1 (TCP)
+if (!$conn && $host === 'localhost') {
+    $conn = mysqli_connect('127.0.0.1', $user, $pass, $db);
+}
 
 // Check connection
 if (!$conn) {
