@@ -16,17 +16,16 @@ if (
 
 } else {
     // RMIT server database settings
-    // The script runs ON the RMIT server, so connect via localhost
     $host = 'talsprddb02.int.its.rmit.edu.au';
     $user = 's4007558';
-    $pass = 'JN4g4oee$8lj06xRPz';
+    $pass = ''; // Note: You will likely need your RMIT database password here
     $db   = 'S4007558_159009';
 }
 
 // Connect to MySQL
 $conn = mysqli_connect($host, $user, $pass, $db);
 
-// If localhost is refused on the RMIT server, retry with 127.0.0.1 (TCP)
+// If localhost is refused, retry with 127.0.0.1 (TCP)
 if (!$conn && $host === 'localhost') {
     $conn = mysqli_connect('127.0.0.1', $user, $pass, $db);
 }
