@@ -1,30 +1,21 @@
-SSLRequireSSL
-AuthName "Restricted Access"
-AuthType Kerberos
-Krb5Keytab  /etc/krb5.keytab
-KrbAuthRealms RMIT.INTERNAL
-KrbMethodNegotiate Off
-KrbMethodK5Passwd On
-KrbVerifyKDC off
-<RequireAny>
+<IfModule mod_auth_kerb.c>
+    SSLRequireSSL
+    AuthName "Restricted Access"
+    AuthType Kerberos
+    Krb5Keytab  /etc/krb5.keytab
+    KrbAuthRealms RMIT.INTERNAL
+    KrbMethodNegotiate Off
+    KrbMethodK5Passwd On
+    KrbVerifyKDC off
+    <RequireAny>
 
+    # Below, replace 's4007558' with your sID
+    require user s4007558@RMIT.INTERNAL 
+    
+    # ^^ If assignments allow more partners, add more 'require user' lines
 
-# Below, replace 's4007558' with your sID
-  
-  require user s1234567@RMIT.INTERNAL 
-  
-# ^^ If assignments allow more partners, add more 'require user' lines
+    # Staff access below, do not modify!
+    require expr %{REMOTE_USER} =~ /^e\d+@RMIT\.INTERNAL$/
 
-
-# Sometimes your network (eg work) blocks authentication ports, insert your ip address below to bypass authentication from a particular location and remove the '#' char from the start of the line.
-
-# require ip 93.184.216.34
-
-# ^^ If access from multiple locked down networks are required, add more 'require ip' lines.
-
-
-# Staff access below, do not modify!
-
-  require expr %{REMOTE_USER} =~ /^e\d+@RMIT\.INTERNAL$/
-
-</RequireAny>
+    </RequireAny>
+</IfModule>
