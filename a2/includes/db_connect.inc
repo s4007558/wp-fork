@@ -17,10 +17,10 @@ if (
 } else {
     // RMIT server database settings
     // The script runs ON the RMIT server, so connect via localhost
-    $host = 'jupiter.csit.rmit.edu.au';
+    $host = 'talsprddb02.int.its.rmit.edu.au';
     $user = 's4007558';
     $pass = 'Maher2003468';
-    $db   = 's4007558';
+    $db   = 'S4007558_159009';
 }
 
 // Connect to MySQL
