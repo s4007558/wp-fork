@@ -19,7 +19,7 @@ if (
     // The script runs ON the RMIT server, so connect via localhost
     $host = 'talsprddb02.int.its.rmit.edu.au';
     $user = 's4007558';
-    $pass = 'Maher2003468';
+    $pass = 'Jesusisking2003468$';
     $db   = 'S4007558_159009';
 }
 
