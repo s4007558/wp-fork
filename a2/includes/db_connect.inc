@@ -18,7 +18,7 @@ if (
     // RMIT server database settings
     $host = 'talsprddb02.int.its.rmit.edu.au';
     $user = 's4007558';
-    $pass = ''; // Note: You will likely need your RMIT database password here
+    $pass = 'JN4g4oee$8lj06xRPz'; 
     $db   = 'S4007558_159009';
 }
 
