@@ -9,10 +9,11 @@ if (
     strpos($host_name, 'localhost') !== false
 ) {
     // Localhost database settings
-    $host = 'localhost';
+    $host = '127.0.0.1';
     $user = 'root';
     $pass = '';
     $db   = 'bookverse';
+    $port = 3306; 
 
 } else {
     // RMIT server database settings
@@ -20,15 +21,11 @@ if (
     $user = 's4007558';
     $pass = 'JN4g4oee$8lj06xRPz'; 
     $db   = 'S4007558_159009';
+    $port = 3306; 
 }
 
 // Connect to MySQL
-$conn = mysqli_connect($host, $user, $pass, $db);
-
-// If localhost is refused, retry with 127.0.0.1 (TCP)
-if (!$conn && $host === 'localhost') {
-    $conn = mysqli_connect('127.0.0.1', $user, $pass, $db);
-}
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 // Check connection
 if (!$conn) {
