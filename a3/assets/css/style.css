@@ -1,0 +1,758 @@
+/* ==========================================================================
+   BookVerse - the one custom stylesheet used by every page.
+   Bootstrap 5.3 provides layout and components; the dark colour mode is switched
+   on with data-bs-theme="dark" in header.inc. This file adds the BookVerse look.
+   Sections: 1 tokens | 2 base | 3 navbar | 4 flash | 5 footer | 6 buttons |
+             7 cards | 8 home carousel | 9 light panels + books table |
+             10 gallery + modals | 11 details | 12 seller | 13 forms | 14 search | 15 small screens
+   ========================================================================== */
+
+/* ---- 1. Design tokens (palette from the brief + dark surfaces from the screenshots) ---- */
+:root {
+    /* Brand: teal and amber */
+    --primary: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #14b8a6;
+    --secondary: #d97706;
+    --secondary-dark: #b45309;
+    /* Accents */
+    --accent-amber: #fbbf24;
+    --accent-green: #10b981;
+    --accent-slate: #475569;
+    /* Neutrals */
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --bg-light: #f9fafb;
+    --bg-white: #ffffff;
+    --border-colour: #e5e7eb;
+
+    /* Dark surfaces used by the screenshots */
+    --page-bg-top: #14142e;
+    --page-bg-bottom: #04040d;
+    --surface: #1c2033;
+    --surface-input: #11122a;
+    --surface-border: #2c3150;
+    --text-on-dark: #f3f4f6;
+    --muted-on-dark: #9ca3af;
+    --link-on-dark: #818cf8;
+    --nav-start: #1e3a5f;
+    --nav-end: #1d4d6e;
+
+    --gradient-line: linear-gradient(90deg, #fbbf24 0%, #60a5fa 55%, #14b8a6 100%);
+
+    --bs-body-font-family: 'Elms Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* ---- 2. Base ---------------------------------------------------------------------------- */
+html {
+    min-height: 100%;
+    background-color: var(--page-bg-bottom);
+}
+
+/* The body is a flex column so the footer always sits at the bottom of the window.
+   "order" (see sections 3, 4, 5) puts flash messages directly under the navbar. */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Elms Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    color: var(--text-on-dark);
+    background: linear-gradient(160deg, var(--page-bg-top) 0%, var(--page-bg-bottom) 70%);
+}
+
+main {
+    flex: 1 0 auto;
+    order: 3;
+    padding-top: 2.25rem;
+    padding-bottom: 3rem;
+}
+
+/* Headings and the navbar brand use Righteous (it ships in one weight only) */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.navbar-brand,
+.modal-title {
+    font-family: 'Righteous', 'Elms Sans', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+/* Body copy, labels, buttons and navigation use Elms Sans */
+label, .btn, .nav-link, .dropdown-item, .form-control, .form-select {
+    font-family: 'Elms Sans', sans-serif;
+}
+
+label, .form-label {
+    font-weight: 600;
+}
+
+a {
+    color: var(--link-on-dark);
+}
+
+.material-icons {
+    vertical-align: middle;
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.page-section {
+    padding-top: 0.5rem;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.page-title .material-icons {
+    color: var(--primary);
+    font-size: 2rem;
+}
+
+/* Visible keyboard focus everywhere (accessibility) */
+a:focus-visible, button:focus-visible, .form-control:focus-visible, .form-select:focus-visible {
+    outline: 3px solid var(--accent-amber);
+    outline-offset: 2px;
+}
+
+.skip-link:focus {
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 2000;
+    padding: 0.5rem 1rem;
+    background: var(--accent-amber);
+    color: var(--text-dark);
+    border-radius: 0.4rem;
+}
+
+/* ---- 3. Header / navbar ------------------------------------------------------------------- */
+.site-header {
+    order: 1;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.site-nav {
+    background: linear-gradient(135deg, var(--nav-start) 0%, var(--nav-end) 100%);
+    border-bottom: 3px solid transparent;
+    border-image: var(--gradient-line) 1;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.site-nav .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 1.35rem;
+    color: #fff;
+}
+
+.site-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.88);
+    border-radius: 0.4rem;
+    padding: 0.5rem 0.7rem;
+}
+
+.site-nav .nav-link:hover,
+.site-nav .nav-link:focus,
+.site-nav .nav-link.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.site-nav .nav-link.dropdown-toggle.show,
+.site-nav .nav-link.dropdown-toggle[aria-expanded="true"] {
+    color: var(--accent-amber);
+    background: rgba(15, 118, 110, 0.55);
+}
+
+.site-nav .dropdown-menu {
+    --bs-dropdown-bg: #115e59;
+    --bs-dropdown-link-color: #f0fdfa;
+    --bs-dropdown-link-hover-bg: rgba(255, 255, 255, 0.12);
+    --bs-dropdown-link-hover-color: #fff;
+    --bs-dropdown-border-color: rgba(255, 255, 255, 0.12);
+    --bs-dropdown-divider-bg: rgba(255, 255, 255, 0.18);
+    font-size: 0.9rem;
+}
+
+/* ---- 4. Flash messages (printed by header.inc, shown under the navbar) ----------------------- */
+.flash-container {
+    order: 2;
+    padding: 0.75rem 0.75rem 0;
+}
+
+.flash-container .alert {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.flash-container .alert-success {
+    --bs-alert-bg: #d1e7dd;
+    --bs-alert-color: #0a3622;
+    --bs-alert-border-color: #a3cfbb;
+}
+
+.flash-container .alert-danger {
+    --bs-alert-bg: #f8d7da;
+    --bs-alert-color: #58151c;
+    --bs-alert-border-color: #f1aeb5;
+}
+
+.flash-container .alert-warning {
+    --bs-alert-bg: #fff3cd;
+    --bs-alert-color: #664d03;
+    --bs-alert-border-color: #ffe69c;
+}
+
+.flash-container .alert-info {
+    --bs-alert-bg: #cff4fc;
+    --bs-alert-color: #055160;
+    --bs-alert-border-color: #9eeaf9;
+}
+
+/* Dark colour mode makes the close button white; these alerts are light, so keep it dark */
+.flash-container .alert .btn-close {
+    filter: none;
+}
+
+/* ---- 5. Footer ------------------------------------------------------------------------------------ */
+.site-footer {
+    order: 4;
+    flex-shrink: 0;
+    padding: 1.25rem 0;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--nav-start) 0%, var(--primary-dark) 100%);
+    border-top: 3px solid transparent;
+    border-image: var(--gradient-line) 1;
+}
+
+/* ---- 6. Buttons --------------------------------------------------------------------------------------- */
+.btn {
+    font-weight: 600;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    --bs-btn-color: #fff;
+    --bs-btn-hover-bg: var(--primary-dark);
+    --bs-btn-hover-border-color: var(--primary-dark);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-bg: var(--primary-dark);
+    --bs-btn-active-border-color: var(--primary-dark);
+    --bs-btn-disabled-bg: var(--primary);
+    --bs-btn-disabled-border-color: var(--primary);
+}
+
+/* "Back" / "Cancel" / "Previous" */
+.btn-slate {
+    --bs-btn-bg: var(--accent-slate);
+    --bs-btn-border-color: var(--accent-slate);
+    --bs-btn-color: #fff;
+    --bs-btn-hover-bg: #334155;
+    --bs-btn-hover-border-color: #334155;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-bg: #334155;
+    --bs-btn-active-border-color: #334155;
+    --bs-btn-active-color: #fff;
+}
+
+.btn-warning {
+    --bs-btn-bg: var(--accent-amber);
+    --bs-btn-border-color: var(--accent-amber);
+    --bs-btn-color: var(--text-dark);
+    --bs-btn-hover-bg: #f59e0b;
+    --bs-btn-hover-border-color: #f59e0b;
+    --bs-btn-hover-color: var(--text-dark);
+}
+
+.btn .material-icons {
+    margin-right: 0.15rem;
+}
+
+/* ---- 7. Cards (dark surface) ------------------------------------------------------------------------------- */
+.card {
+    --bs-card-bg: var(--surface);
+    --bs-card-color: var(--text-on-dark);
+    --bs-card-border-width: 0;
+    --bs-card-border-radius: 0.75rem;
+    --bs-card-inner-border-radius: 0.75rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.book-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    background: #0f1226;
+}
+
+.book-card .card-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+}
+
+.book-card .book-meta {
+    color: var(--muted-on-dark);
+    font-size: 0.78rem;
+    margin-bottom: 0.2rem;
+}
+
+.book-card .book-price {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.15rem;
+}
+
+.book-card .book-seller {
+    font-size: 0.78rem;
+    margin-bottom: 0.6rem;
+}
+
+.book-card .btn {
+    --bs-btn-padding-y: 0.25rem;
+    --bs-btn-padding-x: 0.65rem;
+    --bs-btn-font-size: 0.78rem;
+}
+
+/* Dark panel used for forms, login/register and the search box */
+.panel-dark {
+    background: var(--surface);
+    color: var(--text-on-dark);
+    border-radius: 0.9rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- 8. Home page carousel -------------------------------------------------------------------------------------- */
+.hero-carousel {
+    margin-top: -2.25rem;         /* sits directly under the navbar, as in the screenshot */
+}
+
+.hero-carousel .carousel-item {
+    position: relative;
+}
+
+.hero-carousel .carousel-item img {
+    height: clamp(220px, 28vw, 340px);
+    object-fit: cover;
+    width: 100%;
+}
+
+.hero-carousel .carousel-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 55%);
+    pointer-events: none;
+}
+
+.hero-carousel .carousel-caption {
+    z-index: 2;
+    bottom: 0.9rem;
+}
+
+.hero-carousel .carousel-caption h2 {
+    color: #fff;
+    font-size: 1.6rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.hero-carousel .btn-light {
+    --bs-btn-color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.hero-carousel .carousel-control-prev,
+.hero-carousel .carousel-control-next {
+    width: 6%;
+    z-index: 3;
+    color: #fff;
+}
+
+.hero-carousel .carousel-control-prev .material-icons,
+.hero-carousel .carousel-control-next .material-icons {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    background: rgba(20, 184, 166, 0.85);
+}
+
+/* ---- 9. Light "paper" panels (books page, details page) ------------------------------------------------------------- */
+.panel-light {
+    background: var(--bg-white);
+    color: var(--text-dark);
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.filter-panel {
+    display: flex;
+    align-items: center;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-panel label {
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.filter-select {
+    width: auto;
+    min-width: 8.5rem;
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+    border-color: var(--border-colour);
+}
+
+.table-panel {
+    padding: 0.75rem 1rem 1rem;
+}
+
+/* position: relative keeps the visually-hidden header labels inside the scrolling area
+   (otherwise they could stick out and create a horizontal scrollbar on phones) */
+.table-panel .table-responsive {
+    position: relative;
+}
+
+.books-table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-dark);
+    --bs-table-border-color: var(--border-colour);
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.books-table th,
+.books-table td {
+    padding: 0.8rem 0.5rem;
+    vertical-align: middle;
+}
+
+/* Header text exists for screen readers but is visually empty (matches the screenshot) */
+.books-table thead th {
+    height: 1.6rem;
+    border-bottom-color: var(--border-colour);
+}
+
+/* Custom link colours */
+.books-table a {
+    color: #2563eb;
+}
+
+.books-table a:visited {
+    color: #7c3aed;
+}
+
+.books-table a:hover,
+.books-table a:focus {
+    color: var(--primary-dark);
+}
+
+.no-results {
+    margin: 1rem 0 0;
+    text-align: center;
+    color: var(--text-light);
+}
+
+/* Status badges (class comes from status_class() in functions.inc) */
+.status-badge {
+    display: inline-block;
+    padding: 0.38em 0.7em;
+    border-radius: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.status-badge-lg {
+    font-size: 0.8rem;
+    padding: 0.45em 0.85em;
+}
+
+.status-available { background: var(--accent-green); }
+.status-reserved  { background: var(--secondary); }
+.status-sold      { background: var(--accent-slate); }
+
+/* ---- 10. Gallery + modals ------------------------------------------------------------------------------------------------- */
+.gallery-item {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+
+.gallery-item:hover,
+.gallery-item:focus-visible {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(20, 184, 166, 0.35);
+}
+
+.gallery-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 5 / 6;
+    object-fit: cover;
+}
+
+.modal-content {
+    --bs-modal-bg: var(--surface);
+    --bs-modal-color: var(--text-on-dark);
+    --bs-modal-border-width: 0;
+    --bs-modal-header-border-width: 0;
+    --bs-modal-footer-border-color: rgba(255, 255, 255, 0.06);
+}
+
+.modal-header {
+    background: var(--primary);
+    color: #fff;
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
+}
+
+.modal-cover {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: 0.5rem;
+}
+
+/* ---- 11. Details page ------------------------------------------------------------------------------------------------------------ */
+.detail-cover {
+    width: 100%;
+    border-radius: 0.6rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    aspect-ratio: 5 / 3;
+    object-fit: cover;
+}
+
+.detail-title {
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    margin-bottom: 0.2rem;
+}
+
+.detail-author {
+    color: var(--muted-on-dark);
+}
+
+.detail-panel {
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+}
+
+.detail-panel dt,
+.detail-panel dd {
+    padding: 0.85rem 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.detail-panel dt {
+    font-weight: 700;
+}
+
+.detail-panel a {
+    color: #4f46e5;
+}
+
+.detail-price {
+    font-family: 'Righteous', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.detail-subheading {
+    font-family: 'Elms Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* ---- 12. Seller page ---------------------------------------------------------------------------------------------------------------- */
+.seller-card {
+    padding: 1.1rem;
+}
+
+.seller-card h1 {
+    font-size: 1.6rem;
+}
+
+.seller-location {
+    color: var(--muted-on-dark);
+    text-align: center;
+    margin: 1.2rem 0 0.9rem;
+}
+
+.seller-bio {
+    text-align: center;
+    margin: 0;
+}
+
+.seller-heading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ---- 13. Forms ----------------------------------------------------------------------------------------------------------------------------- */
+.form-control,
+.form-select {
+    background-color: var(--surface-input);
+    border-color: var(--surface-border);
+    color: var(--text-on-dark);
+}
+
+.form-control::placeholder {
+    color: #8b90a8;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--surface-input);
+    color: var(--text-on-dark);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 0.2rem rgba(20, 184, 166, 0.25);
+}
+
+/* The books filter lives on a white panel, so it keeps light colours */
+.filter-panel .form-select {
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+    border-color: var(--border-colour);
+}
+
+.form-narrow {
+    max-width: 570px;
+    margin: 0 auto;
+}
+
+.form-panel {
+    padding: 1.5rem;
+}
+
+.form-panel label .material-icons {
+    font-size: 1rem;
+    margin-right: 0.25rem;
+    color: #e5e7eb;
+}
+
+.auth-card {
+    max-width: 440px;
+    margin: 1.5rem auto 0;
+    padding: 1.5rem;
+}
+
+.auth-card h1 {
+    font-size: 1.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.auth-card h1 .material-icons {
+    color: var(--primary);
+    font-size: 1.9rem;
+}
+
+.auth-switch {
+    margin: 1rem 0 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.cover-thumb {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 0.3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.image-preview {
+    max-width: 180px;
+    max-height: 180px;
+    border-radius: 0.4rem;
+    margin-top: 0.6rem;
+}
+
+/* ---- 14. Search page --------------------------------------------------------------------------------------------------------------------------------- */
+.search-panel {
+    padding: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-form {
+    display: flex;
+    gap: 0;
+}
+
+.search-form .form-control {
+    flex: 1 1 auto;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-form .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.search-summary {
+    color: var(--muted-on-dark);
+    margin-bottom: 1rem;
+}
+
+/* ---- 15. Small screens ------------------------------------------------------------------------------------------------------------------------------------ */
+@media (min-width: 992px) {
+    /* gallery tiles: a fixed width so seven fit on a row (the columns are "col-lg-auto") */
+    .gallery-item {
+        width: 7.4rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    main {
+        padding-top: 1.5rem;
+    }
+
+    .hero-carousel {
+        margin-top: -1.5rem;
+    }
+
+    .books-table {
+        font-size: 0.8rem;
+    }
+
+    .filter-panel {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
