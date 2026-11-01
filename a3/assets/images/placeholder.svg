@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" width="400" height="320" role="img" aria-label="No cover available">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3a5f"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs>
+  <rect width="400" height="320" fill="url(#g)"/>
+  <path d="M110 110c30-9 60-6 90 10v100c-30-16-60-19-90-10z" fill="#fbbf24"/>
+  <path d="M290 110c-30-9-60-6-90 10v100c30-16 60-19 90-10z" fill="#f59e0b"/>
+  <text x="200" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#e2e8f0">No cover available</text>
+</svg>
