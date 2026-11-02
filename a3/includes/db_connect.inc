@@ -15,7 +15,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 // ===================== EDIT THESE VALUES (3 lines) =====================
 $student_id      = 's4007558';             // RMIT student ID
-$jacob5_password = '';            // Jacob 5 (MySQL) password
+$jacob5_password = 'Maher2003468';            // Jacob 5 (MySQL) password
 $jacob5_host     = 'talsprddb02.int.its.rmit.edu.au';   // Jacob 5 host - check it against "Developing and deploying with Git"
 // =======================================================================
 
